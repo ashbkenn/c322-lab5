@@ -13,7 +13,8 @@
       <input id="type" />
       <label>Image:</label>
       <input type="file" id="imageInput" />
-      <button onclick="addTheDuck()">Add the duck</button>
+      <button type="button" onclick="addTheDuck()">Add the duck</button>
+
     </div>
     <script>
       let host = "http://localhost:3000";
@@ -49,18 +50,23 @@
       }
 
       async function submitTheImage() {
-        let duckId = document.getElementById("id").value;
-        let imageInput = document.getElementById("imageInput");
-        let formData = new FormData();
-        formData.append("file", imageInput.files[0]);
-        let request = {
-          method: "POST",
-          body: formData
-        };
-        let response = await fetch(host + "/ducks/" + duckId + "/image", request);
-        let result = await response.json();
-        return result;
-      }
+  let duckId = document.getElementById("id").value;
+  let imageInput = document.getElementById("imageInput");
+  let formData = new FormData();
+  formData.append("file", imageInput.files[0]);
+  let request = {
+    method: "POST",
+    body: formData
+  };
+  let response = await fetch(host + "/ducks/" + duckId + "/image", request);
+  if (response.status === 200) {
+    return true;
+  } else {
+    console.error("Image upload failed:", response);
+    return false;
+  }
+}
+
     </script>
     
   </body>
